@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
 export const Home = (e) => {
-    e.preventDefault();
     const zipCode = '33810'
     const pageNumber = 0; //Math.floor(Math.random() * 11)
     const restaurantsArrayNumber = Math.floor(Math.random() * 11);

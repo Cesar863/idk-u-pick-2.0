@@ -4,7 +4,28 @@ import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 
-export const Home = () => {
+export const Home = (e) => {
+    e.preventDefault();
+    const zipCode = '33810'
+    const pageNumber = 0; //Math.floor(Math.random() * 11)
+    const restaurantsArrayNumber = Math.floor(Math.random() * 11);
+    
+
+    const apiKey = process.env.REACT_APP_RESTAURANT_API_KEY
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': apiKey,
+            'X-RapidAPI-Host': 'restaurants-near-me-usa.p.rapidapi.com'
+        }
+    };
+    
+    const restaurantsResults = async () => {
+        const results = await fetch(`https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/${zipCode}/${pageNumber}`, options)
+        console.log(results.json)
+}
+restaurantsResults();
+    
     return(
         <Grid xs item={12} sx={{
             background: 'gray',
@@ -16,7 +37,7 @@ export const Home = () => {
                 <h1 style={{
                     textAlign: 'center',
                     margin: 0
-                }}>Eat N' Greet</h1>
+                }}>Idk U Pick</h1>
             </Grid>
             <Grid xs item={12}
             style={{alignItems: 'center'}}>

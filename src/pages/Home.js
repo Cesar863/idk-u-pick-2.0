@@ -1,94 +1,103 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, {  useEffect, useState, useRef } from "react";
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-export const Home = (e) => {
-  const zipCode = "33810";
-  const pageNumber = 0; //Math.floor(Math.random() * 11)
-  const restaurantsArrayNumber = Math.floor(Math.random() * 11);
+// need 2 queries, one to get the user Zip code and another to enter the long and lat into the api to return the 
 
-  const apiKey = process.env.REACT_APP_RESTAURANT_API_KEY;
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": apiKey,
-      "X-RapidAPI-Host": "restaurants-near-me-usa.p.rapidapi.com",
-    },
-  };
+export const Home = () => {
+    const inputRef = useRef(null);
+    // use state as empty object that we can use to save restaurants calls from the API call
+    const [restaurant, setRestaurants] = useState({});
+    // user Zipcode
+    const [zip, setZipCode] = useState('');
+    const [zipCode, setUserZipCode] = useState(zip);
 
-  const restaurantsResults = async () => {
-    const results = await fetch(
-      `https://restaurants-near-me-usa.p.rapidapi.com/restaurants/location/zipcode/${zipCode}/${pageNumber}`,
-      options
-    );
-    console.log(results.json);
-  };
-  restaurantsResults();
+    // const zipCode = 33810
+    // api key is hidden reach out to me(cesar) if you need it. 
+    const apiKey = process.env.REACT_APP_RESTAURANT_API_KEY
 
-  return (
-    <Grid
-      xs
-      item={12}
-      sx={{
-        backgroundImage:
-          "linear-gradient(133deg, rgba(168,5,159,1) 10%, rgba(0,212,255,1) 100%)",
-        padding: 0,
-        margin: 0,
-        height: "100%",
-      }}
-    >
-      <Grid xs item={12}>
-        <div
-          style={{
-            color: "white",
-          }}
-        >
-          <h1
-            style={{
-              textAlign: "center",
-              margin: 0,
-            }}
-          >
-            Idk U Pick
-          </h1>
-        </div>
-      </Grid>
-      <Grid xs item={12} style={{ alignItems: "center" }}>
-        <Container
-          style={{
-            margin: "auto",
-            width: "50%",
-            //border: "3px solid red",
-            padding: "10px",
-            // background: "rgb(255,255,255, 0.6)",
-            borderRadius: "10px",
-            color: "white",
-          }}
-        >
-          <Grid style={{ textAlign: "center" }}>
-            <Grid>
-              <h2>Please enter your Zip Code</h2>
+    const handleChange = (e) => {
+        setZipCode(e.target.value);
+    }
+
+    const handleClick = (e) => {
+        setUserZipCode(zip);
+        
+    }
+    
+
+    // this prevents memory leaks
+    // useEffect(() => {
+    //     const getRestaurants = async () => {
+    //         //api call passing through the key, and zipCode
+    //         const response = await fetch(`https://api.tomtom.com/search/2/structuredGeocode.json?key=${apiKey}&countryCode=US&postalCode=${zipCode}&limit=1`)
+    //         // converts results to json object
+    //         const results = await response.json();
+    //         // dot notation to retrieve the desired values
+    //             const lat = results.results[0].position.lat;
+    //             const long = results.results[0].position.lon;
+    //         const res = await fetch(`https://api.tomtom.com/search/2/categorySearch/restaurant.json?key=${apiKey}&limit=1&countrySet=us&lat=${lat}&lon=${long}`);
+    //         const resResult = await res.json();
+    //         // sets the restaurants in state. 
+    //         setRestaurants(resResult);
+    //     }
+    //     getRestaurants();
+    // }, [])
+    // console.log(restaurant);
+    // console.log(zip);
+    // console.log(zipCode);
+
+    
+    return(
+        <Grid xs item={12} sx={{
+            background: 'gray',
+            padding: 0,
+            margin: 0,
+            height: '100%'
+        }}>
+            <Grid xs item={12}>
+                <h1 style={{
+                    textAlign: 'center',
+                    margin: 0
+                }}>Idk U Pick</h1>
             </Grid>
-            <Grid>
-              <TextField
-                style={{
-                  background: "rgb(255, 255, 255, 0.6)",
-                  borderRadius: 5,
-                  margin: 5,
-                  textAlign: "center",
-                }}
-                inputProps={{
-                  inputMode: "numeric",
-                  pattern: "[0-9]*",
-                }}
-                type="number"
-                required
-                label="Zip Code"
-                placeholder="Zip Code"
-              />
+            <Grid xs item={12}
+            style={{alignItems: 'center'}}>
+                <Container style={{
+                    margin: 'auto',
+                    width: '50%',
+                    border: '3px solid red',
+                    padding: '10px',
+                    background:'white',
+                    borderRadius: '10px'
+                }}>
+                    <Grid style={{textAlign:'center'}}>
+                        <Grid>
+                            <h2>Please enter your Zip Code</h2>
+                        </Grid>
+                        <Grid>
+                            <TextField 
+                                inputProps={{
+                                    inputMode: 'numeric',
+                                    pattern: '[0-9]*'
+                                }}
+                                type='number'
+                                required
+                                label="Zip Code"
+                                placeholder="Zip Code"
+                                id="getZip"
+                                onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid>
+                            <Button variant="contained" onClick={handleClick}>Submit</Button>
+                        </Grid>
+                    </Grid>
+                </Container>
             </Grid>
+            
             <Grid>
               <Button
                 variant="contained"

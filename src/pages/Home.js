@@ -97,9 +97,21 @@ export const Home = () => {
                     </Grid>
                 </Container>
             </Grid>
+            
             <Grid>
-                This is the footer
+              <Button
+                variant="contained"
+                style={{
+                  background: "9437BF",
+                }}
+              >
+                Submit
+              </Button>
             </Grid>
-        </Grid>
-    )
-}
+          </Grid>
+        </Container>
+      </Grid>
+      <Grid>This is the footer</Grid>
+    </Grid>
+  );
+};

@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Results } from "./Results";
+import { ErrorMessage } from "./ErrorMessage";
+import { setShowResults, setRestaurant, setShowErrorMessage } from "../components/reducers";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Home = () => {
+    const dispatch = useDispatch();
     const [zip, setZipCode] = useState('');
-    const [showResults, setShowResults] = useState(false);
+    const [savedZip, setSavedZip] = useState('');
+    const [validZipCode, setValidZipCode] = useState();
+    const showResults = useSelector((state) => state.storedInfo.showResults)
+    const showErrorMessage = useSelector((state) => state.storedInfo.showErrorMessage)
 
     const handleZipChange = (e) => {
         setZipCode(e.target.value);
     }
-    const savedResults = window.localStorage.getItem('restaurantResults');
-    const parsedResults = JSON.parse(savedResults);
-    const savedZip = parsedResults.results[0].address.postalCode
-
     const apiKey = process.env.REACT_APP_RESTAURANT_API_KEY;
     const getRestaurants = async () => {
         if(zip !== savedZip){
@@ -26,11 +29,34 @@ export const Home = () => {
             const res = await fetch(`https://api.tomtom.com/search/2/categorySearch/restaurant.json?key=${apiKey}&limit=100&countrySet=us&lat=${lat}&lon=${long}`);
             const resResult = await res.json();
             window.localStorage.setItem("restaurantResults", JSON.stringify(resResult));
+            const savedResults = window.localStorage.getItem('restaurantResults');
+            const parsedResults = JSON.parse(savedResults);
+            setSavedZip(parsedResults.results[0].address.postalCode)
+            const randomNumber = Math.floor(Math.random() * parsedResults.results.length);
+            dispatch(setRestaurant(parsedResults.results[randomNumber]));
+            console.log('the api was hit');
+        } else {
+            const savedResults = window.localStorage.getItem('restaurantResults');
+            const parsedResults = JSON.parse(savedResults);
+            const randomNumber = Math.floor(Math.random() * parsedResults.results.length);
+            dispatch(setRestaurant(parsedResults.results[randomNumber]));
+            console.log('the api was not hit');
         }
     }
+    useEffect(() => {
+        const validateZipCode = () => {
+            if (zip <= 99999 && zip >= 10000){
+                setValidZipCode(true)
+            } else {
+                setValidZipCode(false)
+            }
+        }
+        validateZipCode();
+    }, [zip])
+    
 
-    const randomNumber = Math.floor(Math.random() * parsedResults.results.length);
-    const restaurantInfo = parsedResults.results[randomNumber];
+
+    console.log(validZipCode);
 
     return(
         <Grid sx={{
@@ -74,14 +100,20 @@ export const Home = () => {
                         </Grid>
                         <Grid>
                             <Button variant="contained" onClick={() => {
-                                setShowResults(true)
-                                getRestaurants();
+                                if(validZipCode){
+                                    getRestaurants();
+                                    dispatch(setShowResults(true))
+                                    dispatch(setShowErrorMessage(false));
+                                } else {
+                                    dispatch(setShowErrorMessage(true));
+                                }
                             }}>Submit</Button>
                         </Grid>
                     </Grid>
                 </Container>
             </Grid>
-            {showResults ? <Results restaurant={restaurantInfo}/> : <></>}
+            {showResults ? <Results/> : <></>}
+            {showErrorMessage ? <ErrorMessage/> : <></>}
             <Grid>
                 This is the footer
             </Grid>

@@ -7,12 +7,13 @@ import { Results } from "./Results";
 import { ErrorMessage } from "./ErrorMessage";
 import { setShowResults, setRestaurant, setShowErrorMessage } from "../components/reducers";
 import { useDispatch, useSelector } from "react-redux";
+import styled from 'styled-components'
 
 export const Home = () => {
     const dispatch = useDispatch();
     const [zip, setZipCode] = useState('');
     const [savedZip, setSavedZip] = useState('');
-    const [validZipCode, setValidZipCode] = useState();
+    const [validZipCode, setValidZipCode] = useState(false);
     const showResults = useSelector((state) => state.storedInfo.showResults)
     const showErrorMessage = useSelector((state) => state.storedInfo.showErrorMessage)
 
@@ -53,10 +54,19 @@ export const Home = () => {
         }
         validateZipCode();
     }, [zip])
-    
+    const ResultsModal = styled.div`
+        display: flex;
+        position: fixed;
+        background-color: #FFFFFF;
+        top: 5%;
+        z-index: 9999;
+        border-radius: 5px;
+        border: #004BA8 5px solid;
+        justify-content: center;
+        width: 90%;
+        left: 5%;
+    `
 
-
-    console.log(validZipCode);
 
     return(
         <Grid sx={{
@@ -69,7 +79,7 @@ export const Home = () => {
                 <h1 style={{
                     textAlign: 'center',
                     margin: 0
-                }}>Idk U Pick</h1>
+                }}>RNGrub</h1>
             </Grid>
             <Grid
             style={{alignItems: 'center'}}>
@@ -99,6 +109,7 @@ export const Home = () => {
                             />
                         </Grid>
                         <Grid>
+                            {showResults ? <></> :
                             <Button variant="contained" onClick={() => {
                                 if(validZipCode){
                                     getRestaurants();
@@ -108,11 +119,15 @@ export const Home = () => {
                                     dispatch(setShowErrorMessage(true));
                                 }
                             }}>Submit</Button>
+                        }
                         </Grid>
                     </Grid>
                 </Container>
             </Grid>
-            {showResults ? <Results/> : <></>}
+            {showResults ? 
+            <ResultsModal>
+                <Results/> 
+            </ResultsModal> : <></>}
             {showErrorMessage ? <ErrorMessage/> : <></>}
             <Grid>
                 This is the footer

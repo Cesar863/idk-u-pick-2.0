@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowResults } from "../components/reducers";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { setRestaurant } from "../components/reducers";
 import CloseIcon from '@mui/icons-material/Close';
 import { Modal, CloseButton, Name, Phone, Address, RollAgainButton } from "../components/Styles";
@@ -9,7 +9,7 @@ import { Modal, CloseButton, Name, Phone, Address, RollAgainButton } from "../co
 export const Results = () => {
     const dispatch = useDispatch();
     const restaurant = useSelector((state) => state.storedInfo.restaurant)
-    const name = restaurant !== undefined ? restaurant.poi.name : 'Error: The zip code is invalid please enter a valid zip code'
+    const name = restaurant !== undefined ? restaurant.poi.name : <CircularProgress/>
     const phone = restaurant !== undefined ? restaurant.poi.phone : ''
     const address = restaurant !== undefined ? restaurant.address.freeformAddress : ''
 

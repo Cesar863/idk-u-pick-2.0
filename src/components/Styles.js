@@ -80,6 +80,8 @@ export const Phone = styled.div `
     padding: 4px 0 4px 0;
     text-align: center;
     font-family: 'Helvetica', 'Arial', sans-serif;
+    color: blue;
+    cursor: pointer;
 `
 
 export const Address = styled.div `

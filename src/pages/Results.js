@@ -3,64 +3,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { setShowResults } from "../components/reducers";
 import { Button } from "@mui/material";
 import { setRestaurant } from "../components/reducers";
-import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
+import { Modal, CloseButton, Name, Phone, Address, RollAgainButton } from "../components/Styles";
 
 export const Results = () => {
     const dispatch = useDispatch();
     const restaurant = useSelector((state) => state.storedInfo.restaurant)
-    console.log(restaurant);
-    const name = restaurant !== undefined ? restaurant.poi.name : 'this is where the title of the '
-    const phone = restaurant !== undefined ? restaurant.poi.phone : 'temp phone'
-    const address = restaurant !== undefined ? restaurant.address.freeformAddress : 'Dominos Pizza'
+    const name = restaurant !== undefined ? restaurant.poi.name : 'Error: The zip code is invalid please enter a valid zip code'
+    const phone = restaurant !== undefined ? restaurant.poi.phone : ''
+    const address = restaurant !== undefined ? restaurant.address.freeformAddress : ''
 
     const rollAgain = () => {
         const savedResults = window.localStorage.getItem('restaurantResults');
         const parsedResults = JSON.parse(savedResults);
         const randomNumber = Math.floor(Math.random() * parsedResults.results.length);
         dispatch(setRestaurant(parsedResults.results[randomNumber]));
-        console.log('rolled again');
     }
-    const Name = styled.div`
-        width: 100%;
-        justify-content: center;
-        display: flex;
-        font-size: 24px;
-        text-align: center;
-        padding: 0px 0 4px 0;
-
-    `
-    const Phone = styled.div`
-        width: 100%;
-        justify-content: center;
-        display: flex;
-        font-size: 18px;
-        padding: 4px 0 4px 0;
-        text-align: center;
-    `
-    const Address = styled.div`
-        width: 100%;
-        justify-content: center;
-        display: flex;
-        font-size: 18px;
-        padding: 4px 0 4px 0;
-        text-align: center
-    `
-    const CloseButton = styled.div`
-        width: 100%;
-        justify-content: right;
-        display: flex;
-        font-size: 18px;
-        text-align: center
-    `
-    const RollAgainButton = styled.div`
-        width: 100%;
-        justify-content: center;
-        display: flex;
-        font-size: 18px;
-        text-align: center;
-        padding: 8px 0 8px 0;
-    `
+    
     const searchLink = () => {
         window.open(`http://google.com/search?q=${name}+${address}`, '_blank')
     }
@@ -70,7 +29,7 @@ export const Results = () => {
     }
 
     return(
-        <div>
+        <Modal>
             <CloseButton>
             <Button onClick={() => {
                 dispatch(setShowResults(false));
@@ -90,6 +49,6 @@ export const Results = () => {
                 rollAgain();
             }}>Something else</Button>
             </RollAgainButton>
-        </div>
+        </Modal>
     )
 }

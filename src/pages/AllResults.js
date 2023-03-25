@@ -7,16 +7,24 @@ export const AllResults = () => {
     const dispatch = useDispatch();
     const allRestaurants = window.localStorage.getItem("restaurantResults");
     const parsedRestaurants = JSON.parse(allRestaurants)
-    console.log(parsedRestaurants);
+    const restaurantArray = parsedRestaurants.results
 
-    // const listRes = () => {
-    //     parsedRestaurants.results.filter(())
-    // }
     return (
-        <Modal>
+        <Modal style={{ maxHeight:'450px'}}>
             <CloseButton onClick={() => {
                 dispatch(setShowAllResultsModal(false));
             }}><CloseIcon/></CloseButton>
+            <div style={{overflow: 'scroll', maxHeight: '425px'}}>
+                {restaurantArray.map((a) => {
+                    return (
+                        <div>
+                            <div>{a.poi.name}</div>
+                            <div>{a.poi.phone}</div>
+                            <div>{a.address.freeformAddress}</div>
+                        </div>
+                    )
+                })}
+            </div>
         </Modal>
     )
 }

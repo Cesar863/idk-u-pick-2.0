@@ -40,7 +40,6 @@ export const Results = () => {
             if (hasHours !== undefined){
                 const startTime = hasHours.timeRanges[0].startTime.minute === 0 ? `${hasHours.timeRanges[0].startTime.hour}:00` : `${hasHours.timeRanges[0].startTime.hour}:${hasHours.timeRanges[0].startTime.minute}`;
                 const endTime = hasHours.timeRanges[0].endTime.minute === 0 ? `${hasHours.timeRanges[0].endTime.hour}:00` : `${hasHours.timeRanges[0].endTime.hour}:${hasHours.timeRanges[0].endTime.minute}`;
-                
                 if (startTime !== '' && endTime !== ''){
                     formatStart = parseInt(startTime) >= 12 ? `${parseInt(startTime)} PM` : `${parseInt(startTime)} AM`;
                     formatEnd = parseInt(endTime) >= 13 ? `${parseInt(endTime) - 12} PM` : `${parseInt(endTime)} AM`;

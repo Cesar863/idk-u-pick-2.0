@@ -107,3 +107,12 @@ export const RollAgainButton = styled.div `
         text-align: center;
         padding: 8px 0 8px 0;
     `
+export const Hours = styled.div`
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    font-size: 18px;
+    padding: 4px 0 4px 0;
+    text-align: center;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+`

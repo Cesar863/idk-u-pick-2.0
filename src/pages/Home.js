@@ -10,6 +10,7 @@ import { PageHeader, Modal, DirectionText, Footer} from "../components/Styles";
 import { Info } from "./Info";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InfoIcon from '@mui/icons-material/Info';
+import { AllResults } from "./AllResults";
 
 export const Home = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export const Home = () => {
     const showResults = useSelector((state) => state.storedInfo.showResults);
     const showErrorMessage = useSelector((state) => state.storedInfo.showErrorMessage);
     const showInfoModal = useSelector((state) => state.storedInfo.showInfoModal);
+    const showAllResults = useSelector((state) => state.storedInfo.showAllResults);
 
     const handleZipChange = (e) => {
         setZipCode(e.target.value);
@@ -78,7 +80,7 @@ export const Home = () => {
             </PageHeader>
             <Grid
             style={{alignItems: 'center'}}>
-                {!showResults && !showErrorMessage && !showInfoModal? <Modal >
+                {!showResults && !showErrorMessage && !showInfoModal && !showAllResults ? <Modal >
                     <Grid style={{textAlign:'center'}}>
                         <DirectionText>
                             Please enter your Zip Code
@@ -111,7 +113,8 @@ export const Home = () => {
                 </Modal> : <></>}
             {showResults && !showErrorMessage && !showInfoModal ? <Results/>  : <></>}
             {showErrorMessage && !showResults && !showInfoModal? <ErrorMessage/> : <></>}
-            {showInfoModal && !showErrorMessage && !showResults ? <Info/> : <></>}
+            {showInfoModal ? <Info/> : <></>}
+            {showAllResults && !showErrorMessage && !showInfoModal && !showResults ? <AllResults/>:<></>}
             <Footer>
                 <Grid xs={6}>
                     <GitHubIcon sx={{color: 'white'}} onClick={repoLink}/>

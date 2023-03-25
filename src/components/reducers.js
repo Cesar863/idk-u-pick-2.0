@@ -5,7 +5,8 @@ const initialState = {
   savedZip: '',
   restaurant: undefined,
   showErrorMessage: false,
-  showInfoModal: false
+  showInfoModal: false,
+  showAllResults: false,
 } 
 
 export const setShowResults = createAction('setShowResults');
@@ -13,7 +14,7 @@ export const setSavedZip = createAction('setSavedZip');
 export const setRestaurant = createAction('setRestaurant');
 export const setShowErrorMessage = createAction('setShowErrorMessage');
 export const setShowInfoModal = createAction('setShowInfoModal');
-
+export const setShowAllResultsModal = createAction('setShowAllResultsModal');
 
 const reducers = createReducer(initialState, (builder) => {
   builder
@@ -32,7 +33,9 @@ const reducers = createReducer(initialState, (builder) => {
     .addCase(setShowInfoModal, (state, action) => {
       state.showInfoModal = action.payload
     })
+    .addCase(setShowAllResultsModal, (state, action) => {
+      state.showAllResults = action.payload
+    })
 });
-
 
 export default reducers;

@@ -49,8 +49,6 @@ export const AllResults = () => {
         filteredRestaurants = results;
     }
 
-    console.log(filteredRestaurants);
-
     return (
         <Modal style={{ maxHeight:'400px'}}>
             <div>

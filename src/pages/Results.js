@@ -4,7 +4,7 @@ import { setShowResults, setShowAllResultsModal } from "../components/reducers";
 import { Button, CircularProgress } from "@mui/material";
 import { setRestaurant } from "../components/reducers";
 import CloseIcon from '@mui/icons-material/Close';
-import { Modal, CloseButton, Name, Phone, Address, RollAgainButton, Hours } from "../components/Styles";
+import { Modal, CloseButton, Name, Phone, Address, RollAgainButton, Hours, Category } from "../components/Styles";
 
 export const Results = () => {
     const dispatch = useDispatch();
@@ -12,6 +12,7 @@ export const Results = () => {
     const name = restaurant !== undefined ? restaurant.poi.name : <CircularProgress/>
     const phone = restaurant !== undefined ? restaurant.poi.phone : ''
     const address = restaurant !== undefined ? restaurant.address.freeformAddress : ''
+    const category = restaurant !== undefined ? restaurant.poi.categories.map((a,b) => {return (<div key={b}><div style={{paddingLeft:'4px'}}>{a}</div></div>)}) : '';
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
 
@@ -73,6 +74,9 @@ export const Results = () => {
             <Hours>
                 {start} - {end}
             </Hours>
+            <Category>
+                Type: {category}
+            </Category>
             <RollAgainButton>
             <Button variant="contained"onClick={() => {
                 rollAgain();

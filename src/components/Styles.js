@@ -116,3 +116,14 @@ export const Hours = styled.div`
     text-align: center;
     font-family: 'Helvetica', 'Arial', sans-serif;
 `
+
+export const Category = styled.div`
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    font-size: 18px;
+    padding: 4px 0 4px 0;
+    text-align: center;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-style: italic;
+    `
